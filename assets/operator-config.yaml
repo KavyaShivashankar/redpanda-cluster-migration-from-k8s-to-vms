@@ -1,0 +1,55 @@
+apiVersion: cluster.redpanda.com/v1alpha1                                                                                      
+kind: Redpanda      
+metadata:   
+  name: redpanda                                                                                                               
+spec:
+  chartRef:
+    chartVersion: 5.7.36
+  clusterSpec:                                                                                                                 
+    image:                                                                                                                                                                                                                                                     
+      tag: "v23.3.4"                                                                                                                                                                                                                                           
+    tolerations:                                                                                                                                                                                                                                               
+    - effect: NoSchedule                                                                                                                                                                                                                                       
+      key: redpanda-pool1                                                                                                      
+      operator: Equal                                                                                                                                                                                                                                          
+      value: "true"                                                                                                                                                                                                                                            
+    nodeSelector:                                                                                                                                                                                                                                              
+      nodetype: redpanda-pool1
+    statefulset:   
+      replicas: 3                                                                                                              
+      extraVolumes: |-                
+        - name: redpanda-io-config                                                                                                                                                                                                                             
+          configMap:                                                                                                           
+            name: redpanda-io-config                                                                                           
+      extraVolumeMounts: |-                                                                                                    
+        - name: redpanda-io-config
+          mountPath: /etc/redpanda-io-config
+      additionalRedpandaCmdFlags:                          
+      - "--io-properties-file=/etc/redpanda-io-config/io-config.yaml"
+    listeners:                                                                                                                                                                                                                                                 
+      admin:                                                                                                                   
+        tls:                                                                                                                   
+          enabled: false                                                                                                       
+    tls:            
+      certs:                                                                                                                   
+        default:                                                                                                                                                                                                                                               
+          caEnabled: true                                                                                                                                                                                                                                      
+          secretRef:                                                                                                                                                                                                                                           
+            name: tls-external                                                                                                                                                                                                                                 
+        external:                                                                                                              
+          caEnabled: true                                                                                                                                                                                                                                      
+          secretRef:                                                                                                                                                                                                                                           
+            name: tls-external
+    auth:                                                      
+      sasl:                                       
+        enabled: true                                                                                                          
+        secretRef: redpanda-superusers
+    external:
+      domain: testdomain.local
+      type: LoadBalancer
+    storage:
+      persistentVolume:
+        enabled: true
+        size: 2Gi
+    console:
+      enabled: false
