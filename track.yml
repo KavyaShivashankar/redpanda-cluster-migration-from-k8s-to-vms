@@ -5,7 +5,11 @@ teaser: Learn how to migrate K8s redpanda cluster to VMs
 description: |-
   Redpanda is a Kafka-compatible streaming data platform that is less complex and less costly than any other commercial mission-critical event streaming platform. It's fast, it's easy, and it keeps your data safe.
 
-  The Redpanda Operator extends Kubernetes with custom resource definitions (CRDs), allowing you to define Redpanda clusters as native Kubernetes resources. The resource that the Redpanda Operator uses to represent a Redpanda cluster is the Redpanda resource.
+  Redpanda can be installed in 2 different ways
+
+    1. K8s - The Redpanda Operator extends Kubernetes with custom resource definitions (CRDs), allowing you to define Redpanda clusters as native Kubernetes resources. The resource that the Redpanda Operator uses to represent a Redpanda cluster is the Redpanda resource.
+
+    2. On VMs with Ansible deployment
 
   In this tutorial, you learn how to migrate from a K8s redpanda cluster to a redpanda cluster made of VMs
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
@@ -28,4 +32,4 @@ lab_config:
   feedback_recap_enabled: true
   loadingMessages: true
   hideStopButton: false
-checksum: "16587221298888905307"
+checksum: "4032456952264446679"

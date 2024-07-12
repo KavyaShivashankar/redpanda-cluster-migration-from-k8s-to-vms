@@ -284,9 +284,11 @@ node-c ansible_user=root ansible_become=True private_ip=10.192.0.82 id=2
 # Run the Playbook
 
 ```bash,run
+#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=v23.3.13-1
+
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.4 --extra-vars '{
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=24.1.8 --extra-vars '{
-ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13 --extra-vars '{
+ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
   "redpanda": {
     "node": {
       "empty_seed_starts_cluster": "false",

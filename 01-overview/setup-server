@@ -7,6 +7,7 @@ source ~/.bashrc
 
 # create iotune configmap
 curl -sLO https://gist.githubusercontent.com/vuldin/9a6d3fffe6c3bc5fb0fec4345ab3ce6e/raw/bdaa997db235acbfb0c0cd55e86fb128b4997636/io-config.yaml
+pwd
 sudo chown 101:101 io-config.yaml
 kubectl create configmap redpanda-io-config --namespace redpanda --from-file=io-config.yaml
 
@@ -22,6 +23,7 @@ kubectl label node worker3 nodetype=redpanda-pool1
 
 # deploy redpanda
 #curl -sLO https://gist.githubusercontent.com/vuldin/31ab8a3fb0a1cd7f871fd846991fb6d0/raw/4f2d72173976d3e05cbb991211e949b1da63d5e2/operator-config.yaml
+pwd
 curl -slO https://raw.githubusercontent.com/KavyaShivashankar/instruqt-redpanda-cluster-migration-from-k8s-to-vms/main/assets/operator-config.yaml
 kubectl -n redpanda apply -f operator-config.yaml
 kubectl -n redpanda wait --for condition=established --timeout=60s crd/redpandas.cluster.redpanda.com
