@@ -23,7 +23,7 @@ owner: redpanda
 developers:
 - kavya.shivashankar@redpanda.com
 show_timer: true
-idle_timeout: 300
+idle_timeout: 1800
 timelimit: 8400
 lab_config:
   overlay: false
@@ -32,4 +32,4 @@ lab_config:
   feedback_recap_enabled: true
   loadingMessages: true
   hideStopButton: false
-checksum: "4032456952264446679"
+checksum: "10122909761819703935"

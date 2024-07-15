@@ -14,10 +14,10 @@ virtualmachines:
 - name: worker3
   image: ubuntu-os-cloud/ubuntu-2204-lts
   machine_type: e2-standard-2
-- name: ansible-server
-  image: ubuntu-os-cloud/ubuntu-2204-lts
-  shell: /bin/bash
-  machine_type: n1-standard-1
+#- name: ansible-server
+#  image: ubuntu-os-cloud/ubuntu-2204-lts
+#  shell: /bin/bash
+#  machine_type: n1-standard-1
 - name: node-a
   image: ubuntu-os-cloud/ubuntu-2204-lts
   shell: /bin/bash

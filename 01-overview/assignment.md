@@ -19,7 +19,7 @@ tabs:
   type: terminal
   hostname: server
 difficulty: ""
-timelimit: 600
+timelimit: 900
 ---
 # Introduction
 There are two ways to deploy Redpanda in Kubernetes: the operator and the helm chart. This track focused on operator-based deployments. One thing to keep in mind is that the operator actually uses the helm chart under the covers to perform some basic management tasks for Redpanda (so the two deployment methods are more similar than you may think). For detailed information about running Redpanda in Kubernetes, see the [Redpanda documentation](https://docs.redpanda.com/docs/deploy/deployment-option/self-hosted/kubernetes).

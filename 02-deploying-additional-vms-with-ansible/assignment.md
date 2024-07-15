@@ -10,9 +10,9 @@ notes:
 tabs:
 - title: Shell
   type: terminal
-  hostname: ansible-server
+  hostname: server
 difficulty: basic
-timelimit: 600
+timelimit: 900
 ---
 # Prerequisites
 
@@ -288,7 +288,9 @@ node-c ansible_user=root ansible_become=True private_ip=10.192.0.82 id=2
 
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.4 --extra-vars '{
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=24.1.8 --extra-vars '{
-ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
+#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
+#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
+ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars create_demo_certs=false --extra-vars advertise_public_ips=false --extra-vars handle_certs=false --extra-vars redpanda_truststore_file='/etc/ssl/certs/ca-certificates.crt' --extra-vars '{
   "redpanda": {
     "node": {
       "empty_seed_starts_cluster": "false",
