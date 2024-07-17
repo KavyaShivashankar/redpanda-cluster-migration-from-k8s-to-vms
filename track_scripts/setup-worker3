@@ -19,7 +19,8 @@ done
 
 # tune node
 snap install jq
-curl -sLO https://gist.githubusercontent.com/vuldin/0c8bf87f188ba1fe6854dac17ec9ff10/raw/redpanda-tune-k8s-node.sh
+#curl -sLO https://gist.githubusercontent.com/vuldin/0c8bf87f188ba1fe6854dac17ec9ff10/raw/redpanda-tune-k8s-node.sh
+curl -sLO https://raw.githubusercontent.com/KavyaShivashankar/redpanda-cluster-migration-from-k8s-to-vms/main/assets/redpanda-tune-k8s-node.sh
 chmod +x redpanda-tune-k8s-node.sh
 ./redpanda-tune-k8s-node.sh
 

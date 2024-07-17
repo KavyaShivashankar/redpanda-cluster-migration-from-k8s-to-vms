@@ -54,7 +54,8 @@ metadata:
 EOF
 
 # generate certs
-curl -sLO https://gist.githubusercontent.com/vuldin/e4b4a776df6dc0b4593302437ea57eed/raw/generate-certs.sh
+#curl -sLO https://gist.githubusercontent.com/vuldin/e4b4a776df6dc0b4593302437ea57eed/raw/generate-certs.sh
+curl -sLO https://raw.githubusercontent.com/KavyaShivashankar/redpanda-cluster-migration-from-k8s-to-vms/main/assets/generate-certs.sh
 chmod +x generate-certs.sh
 ./generate-certs.sh testdomain.local
 

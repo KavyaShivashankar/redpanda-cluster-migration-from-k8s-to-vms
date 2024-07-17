@@ -262,18 +262,23 @@ IP_A=$(nslookup node-a | grep Address | tail -1 | cut -f2 -d' ')
 IP_B=$(nslookup node-b | grep Address | tail -1 | cut -f2 -d' ')
 IP_C=$(nslookup node-c | grep Address | tail -1 | cut -f2 -d' ')
 
+#node-a ansible_user=root ansible_become=True private_ip=${IP_A} id=0
+#node-b ansible_user=root ansible_become=True private_ip=${IP_B} id=1
+#node-c ansible_user=root ansible_become=True private_ip=${IP_C} id=2
+
+
 cat << EOF > hosts.ini
 [redpanda]
-node-a ansible_user=root ansible_become=True private_ip=${IP_A} id=0
-node-b ansible_user=root ansible_become=True private_ip=${IP_B} id=1
-node-c ansible_user=root ansible_become=True private_ip=${IP_C} id=2
+${IP_A} ansible_user=root ansible_become=True private_ip=${IP_A} id=0
+${IP_B} ansible_user=root ansible_become=True private_ip=${IP_B} id=1
+${IP_C} ansible_user=root ansible_become=True private_ip=${IP_C} id=2
 EOF
 
 cat hosts.ini
 ```
 
 Output:
-
+# Kavya change the below output later
 ```bash,nocopy
 [redpanda]
 node-a ansible_user=root ansible_become=True private_ip=10.192.0.85 id=0
@@ -289,8 +294,8 @@ node-c ansible_user=root ansible_become=True private_ip=10.192.0.82 id=2
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.4 --extra-vars '{
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=24.1.8 --extra-vars '{
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
-#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
-ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars create_demo_certs=false --extra-vars advertise_public_ips=false --extra-vars handle_certs=false --extra-vars redpanda_truststore_file='/etc/ssl/certs/ca-certificates.crt' --extra-vars '{
+#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1
+ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
   "redpanda": {
     "node": {
       "empty_seed_starts_cluster": "false",
