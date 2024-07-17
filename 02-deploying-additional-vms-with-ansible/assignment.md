@@ -2,7 +2,7 @@
 slug: deploying-additional-vms-with-ansible
 id: tqxhvcrervnx
 type: challenge
-title: Deploying additional VMs with Ansible
+title: Deploying additional VMs with Ansible.   Ansible is preinstalled
 teaser: Add 3 new vms with ansible to the K8s cluster
 notes:
 - type: text
@@ -25,14 +25,25 @@ timelimit: 900
 
 # Infrastructure
 
-There are 5 VMs available in this track: 1 for Ansible, 3 for Redpanda. Initially, we will deploy Redpanda on all 3 nodes.
+There are 4 VMs available in this track: 1 for Ansible, 3 for Redpanda. Initially, we will deploy Redpanda on all 3 nodes.
 
-# Install Ansible
+# Pre-steps
 
-First we need to install Ansible:
+First we will check if Ansible is pre-installed:
+
+```bash,run
+ansible --version
+```
+
+Output:
 
 ```bash,nocopy
-apt update && apt install -y ansible
+ansible 2.10.8
+  config file = None
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0]
 ```
 
 Ansible is already installed as part of setup.  We need to get hold of the deployment automation project:
@@ -116,6 +127,7 @@ cat hosts.ini
 ```
 
 Output:
+
 ```bash,nocopy
 [redpanda]
 10.192.0.85 ansible_user=root ansible_become=True private_ip=10.192.0.85 id=0
@@ -134,6 +146,7 @@ ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.ym
     }
   }
 }'
+#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars create_demo_certs=false --extra-vars advertise_public_ips=false --extra-vars handle_certs=false --extra-vars redpanda_truststore_file='/root/ca_k8s.crt'
 ```
 
 # Validate
@@ -160,6 +173,8 @@ rpk profile create ans --from-redpanda redpanda.yaml
 rpk profile use ans
 
 ```
+
+Output:
 
 ```bash,nocopy
 Created and switched to new profile "ans"
