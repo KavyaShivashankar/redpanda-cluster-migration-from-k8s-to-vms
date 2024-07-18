@@ -53,26 +53,34 @@ metadata:
   namespace: metallb-system
 EOF
 
+#  Commented to disable TLS
 # generate certs
 #curl -sLO https://gist.githubusercontent.com/vuldin/e4b4a776df6dc0b4593302437ea57eed/raw/generate-certs.sh
-curl -sLO https://raw.githubusercontent.com/KavyaShivashankar/redpanda-cluster-migration-from-k8s-to-vms/main/assets/generate-certs.sh
-chmod +x generate-certs.sh
-./generate-certs.sh testdomain.local
+#curl -sLO https://raw.githubusercontent.com/KavyaShivashankar/redpanda-cluster-migration-from-k8s-to-vms/main/assets/generate-certs.sh
+#chmod +x generate-certs.sh
+#./generate-certs.sh testdomain.local
+
+# create namespace redpanda
+kubectl create ns redpanda
 
 # create tls-external secret
-kubectl create ns redpanda
-kubectl create secret generic tls-external --from-file=ca.crt=certs/ca.crt --from-file=tls.crt=certs/node.crt --from-file=tls.key=certs/node.key --dry-run=client -o yaml > tls-external.yaml
-kubectl apply -f tls-external.yaml -n redpanda
+#kubectl create secret generic tls-external --from-file=ca.crt=certs/ca.crt --from-file=tls.crt=certs/node.crt --from-file=tls.key=certs/node.key --dry-run=client -o yaml > tls-external.yaml
+#kubectl apply -f tls-external.yaml -n redpanda
 
 # SASL
-echo 'username:password:SCRAM-SHA-256' > superusers.txt
-kubectl create secret generic redpanda-superusers -n redpanda --from-file=superusers.txt
+#echo 'username:password:SCRAM-SHA-256' > superusers.txt
+#kubectl create secret generic redpanda-superusers -n redpanda --from-file=superusers.txt
 
+
+# Commented 
 # deploy operator
 #kubectl kustomize "https://github.com/redpanda-data/redpanda-operator/src/go/k8s/config/crd?ref=v2.1.14-23.3.4" | kubectl apply -f -
 #helm upgrade --install redpanda-controller operator --repo https://charts.redpanda.com -n redpanda --set image.tag=v2.1.14-23.3.4 --version 0.4.24
 #kubectl kustomize "https://github.com/redpanda-data/redpanda-operator/src/go/k8s/config/crd?ref=v2.1.24-24.1.8" | kubectl apply -f -
 #helm upgrade --install redpanda-controller operator --repo https://charts.redpanda.com -n redpanda --set image.tag=v2.1.24-24.1.8 --version 0.4.24
+#
+
+# deploy operator
 kubectl kustomize "https://github.com/redpanda-data/redpanda-operator/src/go/k8s/config/crd?ref=v2.1.18-23.3.13" | kubectl apply -f -
 helm upgrade --install redpanda-controller operator --repo https://charts.redpanda.com -n redpanda --set image.tag=v2.1.18-23.3.13 --version 0.4.24
 

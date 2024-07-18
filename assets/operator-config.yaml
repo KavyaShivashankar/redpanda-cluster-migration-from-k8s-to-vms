@@ -7,7 +7,7 @@ spec:
     chartVersion: 5.7.36
   clusterSpec:                                                                                                                 
     image:                                                                                                                                                                                                                                                     
-      tag: "v23.3.4"                                                                                                                                                                                                                                           
+      tag: "v23.3.13"                                                                                                                                                                                                                                           
     tolerations:                                                                                                                                                                                                                                               
     - effect: NoSchedule                                                                                                                                                                                                                                       
       key: redpanda-pool1                                                                                                      
@@ -26,24 +26,28 @@ spec:
           mountPath: /etc/redpanda-io-config
       additionalRedpandaCmdFlags:                          
       - "--io-properties-file=/etc/redpanda-io-config/io-config.yaml"
-    listeners:                                                                                                                                                                                                                                                 
-      admin:                                                                                                                   
-        tls:                                                                                                                   
-          enabled: false                                                                                                       
-    tls:            
-      certs:                                                                                                                   
-        default:                                                                                                                                                                                                                                               
-          caEnabled: true                                                                                                                                                                                                                                      
-          secretRef:                                                                                                                                                                                                                                           
-            name: tls-external                                                                                                                                                                                                                                 
-        external:                                                                                                              
-          caEnabled: true                                                                                                                                                                                                                                      
-          secretRef:                                                                                                                                                                                                                                           
-            name: tls-external
+    ## Uncomment as required
+    #listeners:                                                                                                                                                                                                                                                 
+    #  admin:                                                                                                                   
+    #    tls:                                                                                                                   
+    #      enabled: false                                                                                                       
+    tls:   
+      enabled: false         
+      ## Uncomment below if you want TLS, after setting enabled: true
+      #certs:                                                                                                                   
+      #  default:                                                                                                                                                                                                                                               
+      #    caEnabled: true                                                                                                                                                                                                                                      
+      #    secretRef:                                                                                                                                                                                                                                           
+      #      name: tls-external                                                                                                                                                                                                                                 
+      #  external:                                                                                                              
+      #    caEnabled: true                                                                                                                                                                                                                                      
+      #    secretRef:                                                                                                                                                                                                                                           
+      #      name: tls-external
     auth:                                                      
       sasl:                                       
-        enabled: true                                                                                                          
-        secretRef: redpanda-superusers
+        enabled: false         
+        ## Uncomment below if you want sasl after setting enabled: true                                                                                                 
+        #secretRef: redpanda-superusers
     external:
       domain: testdomain.local
       type: LoadBalancer
