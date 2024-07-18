@@ -140,16 +140,16 @@ Output:
 
 ```bash,run
 #ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
-#  "redpanda": {
-#    "node": {
-#      "empty_seed_starts_cluster": "false",
-#      "seed_servers": "redpanda-0.testdomain.local:31092,redpanda-1.testdomain.local:31092,redpanda-2.testdomain.local:31092"
-#    }
-#  }
-#}'
+ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
+  "redpanda": {
+    "node": {
+      "empty_seed_starts_cluster": "false",
+      "seed_servers": "redpanda-0.testdomain.local:31092,redpanda-1.testdomain.local:31092,redpanda-2.testdomain.local:31092"
+    }
+  }
+}'
 
-
-#ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
+#ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
 #  "redpanda": {
 #    "node": {
 #      "redpanda": {
@@ -159,18 +159,6 @@ Output:
 #    }
 #  }
 #}' | tee ans_notls_deployment.log
-
-ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
-  "redpanda": {
-    "node": {
-      "empty_seed_starts_cluster": "false",
-      "redpanda": {
-        "seed_servers": "redpanda-0.testdomain.local:31092,redpanda-1.testdomain.local:31092,redpanda-2.testdomain.local:31092"
-      }
-    }
-  }
-}' | tee ans_notls_deployment.log
-
 
 
 #ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars create_demo_certs=false --extra-vars advertise_public_ips=false --extra-vars handle_certs=false --extra-vars redpanda_truststore_file='/root/ca_k8s.crt'
@@ -194,8 +182,9 @@ export REDPANDA_BROKERS="node-a:9092,node-b:9092,node-c:9092"
 ```bash,run
 cd ~
 scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q root@node-a:/etc/redpanda/redpanda.yaml .
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q root@node-a:/etc/redpanda/certs/truststore.pem ca_ans.crt
-sed -i 's/\/etc\/redpanda\/certs\/truststore.pem/ca_ans.crt/g' redpanda.yaml
+## Not required when no TLS
+# scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q root@node-a:/etc/redpanda/certs/truststore.pem ca_ans.crt
+# sed -i 's/\/etc\/redpanda\/certs\/truststore.pem/ca_ans.crt/g' redpanda.yaml
 rpk profile create ans --from-redpanda redpanda.yaml
 rpk profile use ans
 
