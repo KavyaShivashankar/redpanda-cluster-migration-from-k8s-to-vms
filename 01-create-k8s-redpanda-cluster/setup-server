@@ -34,6 +34,7 @@ while ! kubectl get svc/lb-redpanda-0 -n redpanda -o yaml | yq '.status.loadBala
 while ! kubectl get svc/lb-redpanda-1 -n redpanda -o yaml | yq '.status.loadBalancer.ingress[].ip' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"; do sleep 1; done
 while ! kubectl get svc/lb-redpanda-2 -n redpanda -o yaml | yq '.status.loadBalancer.ingress[].ip' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"; do sleep 1; done
 rpk profile create --from-profile <(kubectl get configmap -n redpanda redpanda-rpk -o go-template='{{ .data.profile }}') k8s
+
 # Comment TLS/SASL
 #rpk profile set kafka_api.sasl.user=username kafka_api.sasl.password=password kafka_api.sasl.mechanism=SCRAM-SHA-256
 echo `kubectl get svc/lb-redpanda-0 -n redpanda -o yaml | yq '.status.loadBalancer.ingress[].ip'` redpanda-0.testdomain.local | sudo tee -a /etc/hosts
