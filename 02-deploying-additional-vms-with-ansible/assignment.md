@@ -139,45 +139,41 @@ Output:
 
 
 ```bash,run
-#ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
 ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
   "redpanda": {
     "node": {
-      "empty_seed_starts_cluster": "false",
-      "seed_servers": "redpanda-0.testdomain.local:31092,redpanda-1.testdomain.local:31092,redpanda-2.testdomain.local:31092"
+      "redpanda": {
+        "empty_seed_starts_cluster": "false",
+        "seed_servers": [
+          {
+            "host": {
+              "address": "redpanda-0.testdomain.local",
+              "port": "31092"
+            }
+          },
+          {
+            "host": {
+              "address": "redpanda-1.testdomain.local",
+              "port": "31092"
+            }
+          },
+          {
+            "host": {
+              "address": "redpanda-2.testdomain.local",
+              "port": "31092"
+            }
+          }
+        ]
+      }
     }
   }
-}'
+}' | tee ans_notls_deployment.log
 
-#ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars '{
-#  "redpanda": {
-#    "node": {
-#      "redpanda": {
-#        "empty_seed_starts_cluster": "false",
-#        "seed_servers": "redpanda-0.testdomain.local:31092,redpanda-1.testdomain.local:31092,redpanda-2.testdomain.local:31092"
-#      }
-#    }
-#  }
-#}' | tee ans_notls_deployment.log
-
-
-#ansible-playbook --private-key ~/.ssh/id_rsa -v ansible/provision-cluster-tls.yml -i hosts.ini -e redpanda_version=23.3.13-1 --extra-vars create_demo_certs=false --extra-vars advertise_public_ips=false --extra-vars handle_certs=false --extra-vars redpanda_truststore_file='/root/ca_k8s.crt'
 ```
 
 # Validate
 
 ## Configure RPK and create a profile for ansible VMs
-
-```bash,nocopy
-cd
-curl -LO https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip
-apt install -y unzip
-unzip rpk-linux-amd64.zip -d /usr/local/bin
-rm rpk-linux-amd64.zip
-export REDPANDA_BROKERS="node-a:9092,node-b:9092,node-c:9092"
-```
-
-## Create rpk profile for ansible
 
 ```bash,run
 cd ~
