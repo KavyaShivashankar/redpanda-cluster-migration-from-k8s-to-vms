@@ -148,26 +148,27 @@ ansible-playbook --private-key ~/.ssh/id_rsa -vvv ansible/provision-cluster.yml 
           {
             "host": {
               "address": "redpanda-0.testdomain.local",
-              "port": "31092"
+              "port": "33145"
             }
           },
           {
             "host": {
               "address": "redpanda-1.testdomain.local",
-              "port": "31092"
+              "port": "33145"
             }
           },
           {
             "host": {
               "address": "redpanda-2.testdomain.local",
-              "port": "31092"
+              "port": "33145"
             }
           }
         ]
       }
     }
   }
-}' | tee ans_notls_deployment.log
+}' 
+#| tee ans_notls_deployment.log
 
 ```
 
